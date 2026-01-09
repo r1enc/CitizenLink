@@ -34,10 +34,7 @@ class User extends Authenticatable
         ];
     }
 
-    // ==========================================
     // RELASI KOMUNITAS
-    // ==========================================
-
     // User bisa bikin banyak Diskusi
     public function diskusis()
     {

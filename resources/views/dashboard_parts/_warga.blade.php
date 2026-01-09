@@ -112,7 +112,7 @@
                         </div>
 
                         <div>
-                            <label class="text-[10px] font-bold uppercase tracking-widest mb-3 block opacity-60">Bukti Foto</label>
+                            <label class="text-[10px] font-bold uppercase tracking-widest mb-3 block opacity-60">Bukti Foto (Max 5MB)</label>
                             <label class="relative w-full h-64 rounded-2xl border-2 border-dashed transition-all duration-300 cursor-pointer flex flex-col items-center justify-center overflow-hidden group"
                                    :class="[isDragging ? (dark ? 'border-cyan-500 bg-cyan-500/10' : 'border-black bg-black/5') : (dark ? 'border-[#30363d] bg-[#0d1117]' : 'border-gray-300 bg-gray-50')]">
                                 <input type="file" name="foto_bukti" class="hidden" required @change="photoPreview = URL.createObjectURL($event.target.files[0])">
@@ -134,39 +134,87 @@
             </div>
         </div>
 
-        <div class="lg:col-span-4 space-y-8">
-            <div class="border rounded-[30px] p-6 h-[400px] flex flex-col transition-all duration-500 shadow-xl"
+        <div class="lg:col-span-4 relative">
+            <div class="sticky top-6 border rounded-[30px] p-6 h-[calc(100vh-120px)] flex flex-col transition-all duration-500 shadow-2xl"
                  :class="dark ? 'bg-[#161b22] border-white/5' : 'bg-white border-black/5'">
-                <h3 class="text-lg font-bold mb-6 pb-4 border-b flex items-center justify-between" :class="dark ? 'border-white/5' : 'border-black/5'">
-                    <span>Timeline Aktivitas</span>
-                    <span class="w-2 h-2 rounded-full animate-pulse" :class="dark ? 'bg-cyan-500' : 'bg-black'"></span>
+                
+                {{-- Header Timeline --}}
+                <h3 class="text-lg font-bold mb-6 pb-4 border-b flex items-center justify-between shrink-0" 
+                    :class="dark ? 'border-white/5' : 'border-black/5'">
+                    <span class="tracking-tight">Timeline Aktivitas</span>
+                    <div class="flex items-center gap-2">
+                         <span class="text-[10px] font-mono opacity-50">{{ $riwayat->count() }} Total</span>
+                         <span class="w-2 h-2 rounded-full animate-pulse" :class="dark ? 'bg-cyan-500' : 'bg-black'"></span>
+                    </div>
                 </h3>
-                <div class="flex-1 overflow-y-auto space-y-6 custom-scrollbar pr-2">
-                    {{-- Loop Riwayat Laporan Warga --}}
+
+                {{-- List Scrollable --}}
+                <div class="flex-1 overflow-y-auto space-y-6 pr-2 custom-scrollbar">
                     @forelse($riwayat as $laporan)
-                    <div class="relative pl-6 group">
-                        <div class="absolute left-[5px] top-3 bottom-0 w-[2px] rounded-full" :class="dark ? 'bg-white/5' : 'bg-black/5'"></div>
-                        <div class="absolute left-0 top-1.5 w-3 h-3 rounded-full border-2 transition-all group-hover:scale-125 z-10" 
-                             :class="[dark ? 'border-[#161b22]' : 'border-white', $laporan->status_laporan == 'selesai' ? 'bg-emerald-500' : ($laporan->status_laporan == 'proses' ? 'bg-yellow-500' : 'bg-gray-400')]"></div>
-                        <a href="{{ route('laporan.tracking', $laporan->id_laporan) }}" class="block border rounded-xl p-4 transition-all hover:translate-x-1"
-                           :class="dark ? 'bg-[#0f1115] border-white/5 hover:border-cyan-500/50' : 'bg-gray-50 border-black/5 hover:border-black/30'">
-                            <div class="flex justify-between items-start mb-1">
-                                <span class="text-[10px] font-mono opacity-50">#{{ $laporan->id_laporan }}</span>
-                                <span class="text-[9px] font-bold uppercase opacity-40">{{ $laporan->created_at->diffForHumans() }}</span>
+                    <div class="relative pl-8 group">
+                        {{-- Garis Vertikal --}}
+                        <div class="absolute left-[9px] top-3 bottom-[-24px] w-[2px] rounded-full transition-colors" 
+                             :class="dark ? 'bg-white/5 group-hover:bg-cyan-500/20' : 'bg-black/5 group-hover:bg-black/10'"></div>
+                        
+                        {{-- Dot Indikator --}}
+                        <div class="absolute left-0 top-[6px] w-5 h-5 rounded-full border-4 transition-all z-10 flex items-center justify-center shadow-lg" 
+                             :class="[
+                                dark ? 'border-[#161b22]' : 'border-white', 
+                                $laporan->status_laporan == 'selesai' ? 'bg-emerald-500 shadow-emerald-500/20' : 
+                                ($laporan->status_laporan == 'proses' ? 'bg-yellow-500 shadow-yellow-500/20' : 'bg-gray-500')
+                             ]">
+                        </div>
+
+                        {{-- Card Item --}}
+                        <a href="{{ route('laporan.tracking', $laporan->id_laporan) }}" 
+                           class="block rounded-2xl p-5 transition-all duration-300 hover:scale-[1.02] group-hover:shadow-lg border relative overflow-hidden"
+                           :class="dark ? 'bg-[#0d1117] border-white/5 hover:border-cyan-500/30' : 'bg-gray-50 border-black/5 hover:border-black/20'">
+                            
+                            {{-- ID & Waktu --}}
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded bg-black/10"
+                                      :class="dark ? 'text-gray-400' : 'text-gray-600'">
+                                    #{{ $laporan->id_laporan }}
+                                </span>
+                                <span class="text-[9px] font-bold uppercase opacity-50">{{ $laporan->created_at->diffForHumans() }}</span>
                             </div>
-                            <h4 class="text-sm font-bold truncate mb-1">{{ $laporan->isi_laporan }}</h4>
-                            <p class="text-[10px] font-bold uppercase tracking-wider">{{ $laporan->status_laporan }}</p>
+
+                            {{-- Isi Laporan --}}
+                            <h4 class="text-sm font-bold mb-3 leading-snug line-clamp-2" :class="dark ? 'text-white' : 'text-gray-900'">
+                                "{{ $laporan->isi_laporan }}"
+                            </h4>
+
+                            {{-- Footer Card --}}
+                            <div class="flex items-center justify-between pt-3 border-t" :class="dark ? 'border-white/5' : 'border-black/5'">
+                                <div class="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider"
+                                     :class="$laporan->status_laporan == 'selesai' ? 'text-emerald-500' : ($laporan->status_laporan == 'proses' ? 'text-yellow-500' : 'text-gray-500')">
+                                     @if($laporan->status_laporan == 'selesai')
+                                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                        <span>Selesai</span>
+                                     @elseif($laporan->status_laporan == 'proses')
+                                        <svg class="w-3 h-3 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                                        <span>Proses</span>
+                                     @else
+                                        <span>Menunggu</span>
+                                     @endif
+                                </div>
+                                <div class="text-[10px] opacity-40 font-mono">
+                                    {{ $laporan->jumlah_upvote }} UPVOTE
+                                </div>
+                            </div>
                         </a>
                     </div>
                     @empty
-                    <div class="h-full flex flex-col items-center justify-center text-center opacity-40">
-                        <p class="text-xs">Belum ada aktivitas.</p>
+                    <div class="h-full flex flex-col items-center justify-center text-center opacity-40 py-10">
+                        <div class="w-16 h-16 bg-gray-500/10 rounded-full flex items-center justify-center mb-4">
+                            <svg class="w-8 h-8 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                        </div>
+                        <p class="text-xs font-bold uppercase tracking-widest">Belum ada aktivitas</p>
                     </div>
                     @endforelse
                 </div>
             </div>
-            
-            </div>
+        </div>
     </div>
     
     {{-- MODAL POPUP: DETEKSI DUPLIKAT --}}

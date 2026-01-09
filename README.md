@@ -1,59 +1,148 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+CITIZENLINK
+Digital Citizen Aspiration & Public Complaint Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+CitizenLink adalah aplikasi web pengaduan masyarakat berbasis Laravel yang memungkinkan warga melaporkan permasalahan publik secara cepat, transparan, dan terstruktur. Sistem ini dirancang dengan pendekatan smart system berbasis logika internal tanpa ketergantungan API AI berbayar.
 
-## About Laravel
+Tujuan utama sistem ini adalah meningkatkan kualitas pengelolaan pengaduan publik melalui validasi data, prioritisasi berbasis komunitas, dan transparansi proses penanganan.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+FITUR UTAMA
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Smart Duplicate Checker (3-Tahap Similarity)
+  Mendeteksi dan mencegah laporan ganda dengan mengombinasikan kemiripan teks, pencocokan lokasi, dan kesamaan kategori laporan.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Upvote-Based Priority System
+  Prioritas penanganan laporan ditentukan secara dinamis berdasarkan jumlah dukungan warga.
 
-## Learning Laravel
+- Smart Dispatch dan Kategorisasi
+  Sistem mengklasifikasikan laporan ke kategori dan prioritas awal menggunakan aturan berbasis kata kunci dan SLA.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- SLA dan Timeline Tracking
+  Monitoring tenggat waktu penanganan laporan dengan indikator status visual yang jelas.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Public Tracking Tanpa Login
+  Pelaporan dapat dilacak secara publik menggunakan ID unik atau QR Code tanpa perlu autentikasi.
 
-## Laravel Sponsors
+- Evidence Upload dan Validation
+  Mendukung unggahan foto bukti laporan serta bukti penyelesaian oleh petugas.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- Admin Command Center
+  Dashboard terpusat untuk memantau status laporan, prioritas, dan performa petugas.
 
-### Premium Partners
+SMART SYSTEM OVERVIEW
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+CitizenLink menggunakan pendekatan algoritmik yang efisien dan ringan:
 
-## Contributing
+1. Text Similarity Engine
+   Menggunakan similar_text() dan token matching untuk menghitung tingkat kemiripan laporan.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+2. Location Matching
+   Menganalisis irisan kata pada lokasi laporan untuk mendeteksi kejadian di area yang sama.
 
-## Code of Conduct
+3. Rule-Based SLA Engine
+   Penentuan tenggat waktu otomatis dan eskalasi prioritas (Darurat, Tinggi, Sedang, Rendah) yang dikonfigurasi secara dinamis melalui database.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+4. Community Validation
+   Sistem upvote digunakan sebagai sinyal validasi urgensi dari masyarakat.
 
-## Security Vulnerabilities
+TECH STACK
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- Backend: Laravel 11 (PHP 8.2+)
+- Frontend: Blade Templates, Tailwind CSS
+- Interactivity: Alpine.js
+- Database: MySQL
+- Map Integration: Leaflet JS dan OpenStreetMap
+- Storage: Laravel Storage
 
-## License
+User Interface Preview
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Landing Page – Public Access
+![Landing](screenshoot/landing_page.png)
+
+Citizen Dashboard – Report Timeline
+(Timeline aktivitas laporan warga)
+![Dashboard Warga](screenshoot/dash_warga.png)
+
+Officer Dashboard – Task,Status,SLA
+(Daftar tugas, status penanganan, bukti penyelesaian, SLA)
+![Dashboard Petugas](screenshoot/dash_petugas.png)
+
+Admin Command Center – Monitoring & Control
+(Overview sistem, prioritas&validasi, SLA Monitoring, duplikat)
+![Admin Dashboard](screenshoot/dash_admin.png)
+
+Public Report Tracking
+(Pelacakan laporan tanpa login)
+![Tracking](screenshoot/tracking.png)
+
+STRUKTUR DIREKTORI UTAMA
+
+app/
+  Http/Controllers/LaporanController.php
+  Models/Laporan.php
+  Models/LaporanDukungan.php
+
+resources/
+  views/
+    dashboard_parts/
+    laporan/
+    welcome.blade.php
+
+routes/
+  web.php
+
+INSTALASI LOKAL
+
+Ikuti langkah berikut untuk menjalankan aplikasi di komputer lokal:
+
+1. Clone Repository
+   git clone https://github.com/r1enc/CitizenLink.git
+   cd CitizenLink
+
+2. Install Dependency
+   composer install
+   npm install && npm run build
+
+3. Setup Environment
+   cp .env.example .env
+   php artisan key:generate
+
+4. Konfigurasi Database (.env)
+   Pastikan file .env memiliki konfigurasi berikut:
+   
+   APP_NAME=CitizenLink
+   APP_URL=http://localhost:8000
+   
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=citizenlink
+   DB_USERNAME=root
+   DB_PASSWORD=
+
+5. Migrasi dan Seeding
+   php artisan migrate:fresh --seed
+   php artisan storage:link
+
+6. Jalankan Server
+   php artisan serve
+
+Akses aplikasi melalui browser di http://localhost:8000
+
+STATUS PENGEMBANGAN
+
+- Tahap: Prototype / MVP
+- Pendekatan: Rule-based system tanpa API AI berbayar
+- Fokus: Akurasi logika, efisiensi sistem, dan skalabilitas
+
+ROADMAP
+
+- Auto SLA Escalation dengan notifikasi
+- Sentiment analysis laporan warga
+- Advanced GIS visualization (heatmap)
+- Public analytics dashboard
+
+AUTHOR
+
+Wildan Ariel
+Informatics Student | Web Developer
+GitHub: https://github.com/r1enc

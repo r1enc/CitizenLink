@@ -67,10 +67,10 @@ class Laporan extends Model
 
         return match($this->prioritas) {
             'Sangat Tinggi' => $createdAt->addHours(6), // 6 Jam
-            'Tinggi'        => $createdAt->addWeekdays(1), // 1 Hari Kerja
-            'Sedang'        => $createdAt->addWeekdays(2), // 2 Hari Kerja
-            'Rendah'        => $createdAt->addWeekdays(2),
-            default         => $createdAt->addWeekdays(2),
+            'Tinggi'        => $createdAt->addDays(1), // 1 Hari
+            'Sedang'        => $createdAt->addDays(2), // 2 Hari 
+            'Rendah'        => $createdAt->addWeekdays(2), // 2 Hari Kerja
+            default         => $createdAt->addWeekdays(value: 2),
         };
     }
 }
