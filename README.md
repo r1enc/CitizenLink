@@ -144,5 +144,4 @@ ROADMAP
 AUTHOR
 
 Wildan Ariel
-Informatics Student | Web Developer
 GitHub: https://github.com/r1enc
